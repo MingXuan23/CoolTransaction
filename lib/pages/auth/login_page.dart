@@ -1,5 +1,6 @@
 import 'package:cool_transaction/blocs/auth/login/login_bloc.dart';
 import 'package:cool_transaction/pages/home/home_page.dart';
+import 'package:cool_transaction/widget/common/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,11 +29,14 @@ class _LoginPageState extends State<LoginPage> {
             );
           }
           if (state is LoginLoading) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('loading')),
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return LoadingOverlay();
+                },
             );
           }
-          if (state is LoginSuccess) {
+          if (state is LoginSuccess ) {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const HomePage()),
@@ -47,6 +51,8 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+
+                    
                     Text(
                       'Log in',
                       style: TextStyle(fontSize: 32.0, color: Colors.white),
