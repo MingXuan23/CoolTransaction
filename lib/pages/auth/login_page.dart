@@ -27,7 +27,11 @@ class _LoginPageState extends State<LoginPage> {
               SnackBar(content: Text(state.error)),
             );
           }
-
+          if (state is LoginLoading) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('loading')),
+            );
+          }
           if (state is LoginSuccess) {
             Navigator.pushReplacement(
               context,
@@ -78,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                       ),
+                      controller: _passwordController,
                     ),
                     SizedBox(height: 10.0),
                     Align(

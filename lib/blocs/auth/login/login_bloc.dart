@@ -6,14 +6,13 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-
   UserRepository repo;
 
   LoginBloc(LoginState LoginInitial, this.repo) : super(LoginInitial) {
-     on<LoginButtonPressed>((event, emit) async {
+    on<LoginButtonPressed>((event, emit) async {
       emit(LoginLoading());
       try {
-        final bool success = repo.login(event.email, event.password);
+        final bool success = await repo.login(event.email, event.password);
         if (success) {
           emit(LoginSuccess());
         } else {
