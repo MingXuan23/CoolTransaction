@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cool_transaction/repositories/user_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -8,7 +9,7 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   UserRepository repo;
 
-  LoginBloc(LoginState LoginInitial, this.repo) : super(LoginInitial) {
+  LoginBloc(LoginState loginInitial, this.repo) : super(loginInitial) {
     on<LoginButtonPressed>((event, emit) async {
       emit(LoginLoading());
       try {
@@ -22,5 +23,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginFailure(error.toString()));
       }
     });
+
+     
   }
 }

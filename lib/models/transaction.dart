@@ -7,7 +7,9 @@ class  Transaction{
    final User? user;
    final DateTime date;
    final double amount;
+  DateTime? estimateSuccessTime ;
 
 
    Transaction(this.date,this.amount,this.type,this.status,this.user,this.relatedUser);
+   Transaction.pending(this.date,this.amount,this.type,this.status,this.user,this.relatedUser,this.estimateSuccessTime);
 }

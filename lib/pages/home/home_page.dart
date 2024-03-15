@@ -1,3 +1,4 @@
+import 'package:cool_transaction/blocs/auth/login/login_bloc.dart';
 import 'package:cool_transaction/pages/transaction/transaction_history.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -220,6 +221,10 @@ class _HomeViewState extends State<HomeView> {
             ),
             TextButton(
               onPressed: () {
+
+                BlocProvider.of<HomeBloc>(context).add(
+                      LogoutButtonPressed()
+                              );
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginPage()),

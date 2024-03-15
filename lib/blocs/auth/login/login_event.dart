@@ -7,6 +7,8 @@ sealed class LoginEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class KeepUserSignedIn extends LoginEvent{}
+
 class LoginButtonPressed extends LoginEvent {
   final String email;
   final String password;

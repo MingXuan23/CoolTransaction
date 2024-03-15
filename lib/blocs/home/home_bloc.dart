@@ -1,10 +1,14 @@
 import 'package:bloc/bloc.dart';
+import 'package:cool_transaction/repositories/user_repository.dart';
 import 'package:equatable/equatable.dart';
 
 import 'home_event.dart';
 import 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
+
+  UserRepository repo = UserRepository();
+
   HomeBloc() : super(HomeInitialState()) {
     on<HomeLoadedEvent>(_onHomeLoaded);
     on<LogoutButtonPressed>(_onLogoutPressed);
@@ -21,10 +25,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeLoadedState(username: username, transactions: transactions));
   }
 
-  void _onLogoutPressed(
+  void _onLogoutPressed  (
     LogoutButtonPressed event,
     Emitter<HomeState> emit,
-  ) {
+  ) async {
     emit(HomeLogoutState());
+    await repo.logout();
   }
 }
