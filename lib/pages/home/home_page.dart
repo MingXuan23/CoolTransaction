@@ -36,6 +36,10 @@ class _HomeViewState extends State<HomeView> {
           if (state is HomeLogoutState) {
             _showLogoutConfirmationDialog(context);
           }
+
+          if (state is HomeLoginExpiredState){  
+            _loginExpired(context);
+          }
         },
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
@@ -237,4 +241,15 @@ class _HomeViewState extends State<HomeView> {
       },
     );
   }
+
+  Future<void> _loginExpired(BuildContext context) async {
+   
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
+
+      }
+    
+  
 }
