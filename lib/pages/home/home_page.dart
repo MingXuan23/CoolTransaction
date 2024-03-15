@@ -1,4 +1,5 @@
 import 'package:cool_transaction/blocs/auth/login/login_bloc.dart';
+import 'package:cool_transaction/pages/payment/add_payment_page.dart';
 import 'package:cool_transaction/pages/transaction/transaction_history.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -152,6 +153,10 @@ class _HomeViewState extends State<HomeView> {
                               ),
                               TextButton(
                                 onPressed: () {
+                                   Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => const AddPaymentPage()),
+                                      );
                                   // Add your onPressed logic for Add Payment button
                                 },
                                 child: Column(
