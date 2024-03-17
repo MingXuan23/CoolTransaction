@@ -1,6 +1,8 @@
 import 'package:cool_transaction/blocs/auth/login/login_bloc.dart';
 import 'package:cool_transaction/blocs/payment/payment_bloc.dart';
 import 'package:cool_transaction/blocs/payment/payment_state.dart';
+import 'package:cool_transaction/blocs/scan_payment/scan_payment_bloc.dart';
+import 'package:cool_transaction/blocs/scan_payment/scan_payment_state.dart';
 import 'package:cool_transaction/blocs/transaction/transaction_history_bloc.dart';
 import 'package:cool_transaction/pages/auth/login_page.dart';
 import 'package:cool_transaction/pages/transaction/transaction_history.dart';
@@ -31,6 +33,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<PaymentBloc>(
           create: (context) => PaymentBloc(PaymentInitialState(), PaymentRepository()),
+        ),
+        BlocProvider<ScanPaymentBloc>(
+          create: (context) => ScanPaymentBloc(ScanPaymentInitial(), PaymentRepository()),
         ),
       ],
       child: MaterialApp(

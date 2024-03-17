@@ -1,5 +1,6 @@
 import 'package:cool_transaction/blocs/auth/login/login_bloc.dart';
 import 'package:cool_transaction/pages/payment/add_payment_page.dart';
+import 'package:cool_transaction/pages/payment/scan_payment_page.dart';
 import 'package:cool_transaction/pages/transaction/transaction_history.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -137,7 +138,10 @@ class _HomeViewState extends State<HomeView> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  // Add your onPressed logic for Make Payment button
+                                  Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => ScanPaymentPage()),
+                                      );
                                 },
                                 child: Column(
                                   children: [
@@ -249,10 +253,10 @@ class _HomeViewState extends State<HomeView> {
 
   Future<void> _loginExpired(BuildContext context) async {
    
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
 
       }
     

@@ -1,18 +1,55 @@
+import 'package:cool_transaction/models/payment.dart';
 import 'package:cool_transaction/models/transaction.dart';
 import 'package:cool_transaction/models/user.dart';
 
 class PaymentRepository {
   var list = [
-    Transaction(DateTime.parse("2024-03-15"), 50.5, "Pay", "Success", User(1, "aada", "asdads","John"),  User(2, "bbbb", "bbbb","David")),
-    Transaction(DateTime.parse("2024-03-15"), 63, "Pay", "Refund", User(1, "aada", "asdads","John"),  User(2, "bbbb", "bbbb","David")),
-    Transaction.pending(DateTime.parse("2024-03-15"), 75, "Pay", "Pending", User(1, "aada", "asdads","John"),  User(2, "bbbb", "bbbb","David"),DateTime.parse("2024-03-18")),
-
-    Transaction(DateTime.now(), 50, "Receive", "Scam", User(1, "aada", "asdads","John"),  User(2, "bbbb", "bbbb","David"))
+    Payment.withPaymentId(100, "Fei's Popian Basah", 3, DateTime(2024,3,18),  User(2, "choonfei@test.com", "abc123","Fei"),"Payment1")
 
   ];
 
-  Future<List<Transaction>> getTransactionHistory(int id) async {
-    return list;
+  Future<Payment> storePayment(Payment payment) async {
+
+    //saving process
+    payment.paymentId = "Payment1";
+    payment.url = "http://coolingTransacion.my/getPayment/${payment.user.id}/${payment.paymentId}";
+
+    return payment;
        
   }
+
+  Future<Payment> getPaymentByManual(String paymentId) async {
+   final paymentAny = list.any((element) => element.paymentId == paymentId);
+   if(!paymentAny)
+      throw Exception("Invalid Payment Id");
+
+    final payment = list.firstWhere((element) => element.paymentId == paymentId);
+
+    return payment;
+       
+  }
+
+  Future<Payment> getPaymentByLink(String url) async {
+      final uri = Uri.parse(url);
+      final pathSegments = uri.pathSegments;
+
+      if (pathSegments.length < 3 || pathSegments[0] != 'getPayment') {
+        throw Exception('Invalid URL format');
+      }
+
+      final userId = int.tryParse(pathSegments[1]);
+      final paymentId = pathSegments[2];
+
+      if (userId == null || paymentId.isEmpty) {
+        throw Exception('Invalid user ID or payment ID');
+      }
+
+      final payment = list.firstWhere(
+        (element) => element.user.id == userId && element.paymentId == paymentId,
+        orElse: () => throw Exception('Payment not found'),
+      );
+
+      return payment;
+}
+
 }

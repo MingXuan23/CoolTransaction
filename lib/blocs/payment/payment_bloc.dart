@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:cool_transaction/models/payment.dart';
+import 'package:cool_transaction/models/transaction.dart';
 import 'package:cool_transaction/models/user.dart';
 import 'package:cool_transaction/repositories/payment_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +11,8 @@ import 'payment_event.dart';
 import 'payment_state.dart';
 
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
+
+  PaymentRepository repo = PaymentRepository();
   PaymentBloc(PaymentInitialState paymentInitialState, PaymentRepository paymentRepository) 
       : super(paymentInitialState) {
     on<AmountChangedEvent>(_amountChanged);
@@ -77,6 +81,19 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
   }
 
-  void _createPayment(CreatePaymentEvent event, Emitter<PaymentState> emit) {
+  Future<void> _createPayment(CreatePaymentEvent event, Emitter<PaymentState> emit) async {
+
+    try{
+      final amount= double.tryParse(event.amount);
+      final coolingPeriod = int.parse(event.coolingPeriod);
+      final user = await User.userFromSharedPreference();
+      final Payment payment = Payment(amount,event.description, coolingPeriod, event.date, user);
+
+      final savedPayment = await repo.storePayment(payment);
+      emit (PaymentCreatedState(payment: savedPayment));
+
+    }catch(error){
+        emit(PaymentFailure(error.toString()));
+    }
   }
 }

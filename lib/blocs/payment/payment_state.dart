@@ -1,3 +1,4 @@
+import 'package:cool_transaction/models/payment.dart';
 import 'package:equatable/equatable.dart';
 
 
@@ -25,12 +26,12 @@ class PaymentLoadedState extends PaymentState {
 }
 
 class PaymentCreatedState extends PaymentState {
-  final String paymentId;
+  final Payment payment;
 
-  const PaymentCreatedState({required this.paymentId});
+  const PaymentCreatedState({required this.payment});
 
   @override
-  List<Object?> get props => [paymentId];
+  List<Object?> get props => [payment];
 }
 
 class FormattedAmount extends PaymentState {

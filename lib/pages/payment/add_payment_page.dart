@@ -17,7 +17,8 @@ class AddPaymentState extends State<AddPaymentPage> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _coolingPeriodController = TextEditingController();
-  DateTime _selectedDate = DateTime.now();
+  bool _isCreateButtonEnabled = false;
+  DateTime _selectedDate = DateTime.now().add(const Duration(days: 1));
   String? _paymentId;
 
 
@@ -33,7 +34,7 @@ class AddPaymentState extends State<AddPaymentPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF5465FF),
-        title: Text(
+        title: const Text(
           'Add Payment',
           style: TextStyle(color: Colors.white),
         ),
@@ -44,7 +45,7 @@ class AddPaymentState extends State<AddPaymentPage> {
           if (state is PaymentCreatedState) {
             // Update the UI with the created payment details
             setState(() {
-              _paymentId = state.paymentId;
+              _paymentId = state.payment.paymentId;
             });
           }
           if(state is PaymentFailure){
@@ -96,12 +97,26 @@ class AddPaymentState extends State<AddPaymentPage> {
                         _amountController.text = state.formattedAmount;
                       }
                     },
-                    decoration: InputDecoration(labelText: 'Amount (RM)'),
+                    decoration: InputDecoration(
+                      labelText: 'Amount (RM)',
+                      suffixIcon: state is FormattedAmount && _amountController.text.isNotEmpty
+                          ? IconButton(
+                              icon: Icon(Icons.clear),
+                              onPressed: () {
+                                _amountController.clear();
+                                 setState(() {});
+                              },
+                            )
+                          : null,
+                    ),
+                    enabled: state is! PaymentCreatedState,
                     //initialValue: '0.00',
                   ),
                   TextFormField(
                     controller: _descriptionController,
                     decoration: InputDecoration(labelText: 'Description'),
+                    onChanged: (value) => _updateCreateButtonState,
+                    enabled: state is! PaymentCreatedState,
                   ),
                   TextFormField(
                     controller: _coolingPeriodController,
@@ -115,63 +130,105 @@ class AddPaymentState extends State<AddPaymentPage> {
                       if(state is FormattedCoolingPeriod){
                         _coolingPeriodController.text = state.days;
                       }
+
+                      _updateCreateButtonState();
                     },
-                  ),
+                    enabled: state is! PaymentCreatedState,
+                     ),
                   SizedBox(height: 10,),
+                 
                   Row(
                     children: [
                       const Text('Expired Date: '),
                       SizedBox(width: 10),
-                      ElevatedButton(
-                        onPressed: () => _selectDate(context),
+                     ElevatedButton(
+                        onPressed: state is PaymentCreatedState ? null : () => _selectDate(context),
                         child: Text('${_selectedDate.year}-${_selectedDate.month}-${_selectedDate.day}'),
                       ),
+
                     ],
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed:_isCreateButtonEnabled && state is! PaymentCreatedState? () {
                       // Dispatch event to create payment
                       BlocProvider.of<PaymentBloc>(context).add(
                         CreatePaymentEvent(
                           receiverName: _receiverNameController.text,
                           amount: _amountController.text,
                           description: _descriptionController.text,
-                          integer: _coolingPeriodController.text,
+                          coolingPeriod: _coolingPeriodController.text,
                           date: _selectedDate,
                         ),
                       );
-                    },
-                    child: Text('Create'),
+                    }:null,
+                    child: const Text('Create'),
                   ),
-                  if (_paymentId != null) ...[
-                    Container(
-                      padding: EdgeInsets.all(20.0),
-                      color: Colors.grey.shade200,
+                 if (_paymentId != null) ...[
+                    SizedBox(
+                      height: 200, // Set a specific height for the container
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text('Payment ID: $_paymentId'),
-                          SizedBox(height: 10),
-                          Row(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () => _copyPaymentId(context),
-                                child: Text('Copy'),
-                              ),
-                              SizedBox(width: 10),
-                              ElevatedButton(
-                                onPressed: () => _downloadQR(context),
-                                child: Text('Download QR'),
-                              ),
-                            ],
+                          const SizedBox(height: 10,),
+                          Container(
+                            padding: EdgeInsets.all(20.0),
+                            width: double.infinity,
+                            height: 150,
+                            color: Color(0xffBFD7FF),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    style: TextStyle(fontSize: 18, color: Colors.black), // Default text style
+                                    children: [
+                                      TextSpan(
+                                        text: 'Payment ID: ',
+                                      ),
+                                      TextSpan(
+                                        text: _paymentId,
+                                        style: TextStyle(fontWeight: FontWeight.bold), // Make the payment ID bold
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Row(
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () => _copyPaymentId(context),
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF5465FF)), // Change button color
+                                      ),
+                                      child: Text(
+                                        'Copy',
+                                        style: TextStyle(color: Colors.white), // Change text color
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    ElevatedButton(
+                                      onPressed: () => _downloadQR(context),
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF5465FF)), // Change button color
+                                      ),
+                                      child: Text(
+                                        'Download QR',
+                                        style: TextStyle(color: Colors.white), // Change text color
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                // QR Code Widget can be added here
+                              ],
+                            ),
                           ),
-                          SizedBox(height: 10),
-                          // QR Code Widget can be added here
                         ],
                       ),
                     ),
                   ],
+
                 ],
               ),
             );
@@ -181,20 +238,38 @@ class AddPaymentState extends State<AddPaymentPage> {
     );
   }
 
-
-  void _selectDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 7)),
-    );
-    if (pickedDate != null && pickedDate != _selectedDate) {
+  void _updateCreateButtonState() {
+      final description = _descriptionController.text;
+      final coolingPeriod = _coolingPeriodController.text;
       setState(() {
-        _selectedDate = pickedDate;
+        _isCreateButtonEnabled = description.isNotEmpty && coolingPeriod.isNotEmpty;
       });
     }
+
+ void _selectDate(BuildContext context) async {
+  final DateTime? pickedDate = await showDatePicker(
+    context: context,
+    initialDate: _selectedDate,
+    firstDate: DateTime.now(),
+    lastDate: DateTime.now().add(const Duration(days: 7)),
+    builder: (BuildContext context, Widget? child) {
+      return Theme(
+        data: ThemeData.light().copyWith(
+          colorScheme: ColorScheme.light().copyWith(
+            primary: const Color(0xFF5465FF), // Set background color
+          ),
+        ),
+        child: child!,
+      );
+    },
+  );
+  if (pickedDate != null && pickedDate != _selectedDate) {
+    setState(() {
+      _selectedDate = pickedDate;
+    });
   }
+}
+
 
   void _copyPaymentId(BuildContext context) {
     Clipboard.setData(ClipboardData(text: _paymentId ?? ''));

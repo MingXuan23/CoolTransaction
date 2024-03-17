@@ -14,19 +14,19 @@ class CreatePaymentEvent extends PaymentEvent {
   final String receiverName;
   final String amount;
   final String description;
-  final String integer;
+  final String coolingPeriod;
   final DateTime date;
 
   const CreatePaymentEvent({
     required this.receiverName,
     required this.amount,
     required this.description,
-    required this.integer,
+    required this.coolingPeriod,
     required this.date,
   });
 
   @override
-  List<Object?> get props => [receiverName, amount, description, integer, date];
+  List<Object?> get props => [receiverName, amount, description, coolingPeriod, date];
 }
 
 

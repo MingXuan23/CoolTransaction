@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
 class User{
   final int? id;
   final String email;
@@ -23,4 +27,15 @@ class User{
       'name': name,
     };
   }
+
+   static Future<User> userFromSharedPreference() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final userJson = prefs.getString('user');
+      if (userJson == null) {
+        throw Exception('Login Expired');
+      }
+      final user = User.fromJson(json.decode(userJson));
+      return user;
+    }
+  
 }
