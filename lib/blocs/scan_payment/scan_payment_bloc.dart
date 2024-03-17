@@ -16,7 +16,7 @@ class ScanPaymentBloc extends Bloc<ScanPaymentEvent, ScanPaymentState> {
       final payment = await repo.getPaymentByLink(event.url);
       emit (MakeNavigateWithPayment(payment));
    }catch(error){
-    emit(ScanPaymentFailure(error.toString()));
+    emit(ScanPaymentFailure(error.toString().replaceAll('Exception: ', '')));
    }
   }
  

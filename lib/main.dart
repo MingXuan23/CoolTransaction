@@ -1,4 +1,5 @@
 import 'package:cool_transaction/blocs/auth/login/login_bloc.dart';
+import 'package:cool_transaction/blocs/home/home_bloc.dart';
 import 'package:cool_transaction/blocs/payment/payment_bloc.dart';
 import 'package:cool_transaction/blocs/payment/payment_state.dart';
 import 'package:cool_transaction/blocs/scan_payment/scan_payment_bloc.dart';
@@ -27,6 +28,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<LoginBloc>(
           create: (context) => LoginBloc(LoginInitial(), UserRepository()),
+        ),
+
+        BlocProvider<HomeBloc>(
+          create: (context) => HomeBloc(),
         ),
         BlocProvider<TransactionHistoryBloc>(
           create: (context) => TransactionHistoryBloc(TransactionHistoryInitial(), TransactionRepository()),

@@ -69,3 +69,11 @@ class PaymentFailure extends PaymentState {
   @override
   List<Object> get props => [error];
 }
+
+class FetchPaymentState extends PaymentState{
+  final Payment payment;
+  const FetchPaymentState(this.payment);
+
+  @override
+  List<Object> get props => [payment];
+}

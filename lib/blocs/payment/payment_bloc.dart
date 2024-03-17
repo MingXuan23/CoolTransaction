@@ -19,6 +19,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     on<CoolingPeriodChangedEvent>(_coolingPeriodChanged);
     on<FetchReceiverEvent>(_fetchReceiver);
     on<CreatePaymentEvent>(_createPayment);
+    on<CheckPaymentEvent>(_checkPayment);
   }
 
   void _amountChanged(AmountChangedEvent event, Emitter<PaymentState> emit) {
@@ -94,6 +95,17 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
     }catch(error){
         emit(PaymentFailure(error.toString()));
+    }
+  }
+
+  Future<void > _checkPayment (CheckPaymentEvent event, Emitter<PaymentState> emit) async {
+     try{
+      final payment = await repo.getPaymentByManual(event.paymentId);
+
+      emit (FetchPaymentState(payment));
+
+    }catch(error){
+        emit(PaymentFailure(error.toString().replaceAll('Exception: ', '')));
     }
   }
 }

@@ -1,9 +1,14 @@
+import 'dart:io';
+
+import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:cool_transaction/pages/payment/make_payment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cool_transaction/blocs/scan_payment/scan_payment_bloc.dart';
 import 'package:cool_transaction/blocs/scan_payment/scan_payment_event.dart';
 import 'package:cool_transaction/blocs/scan_payment/scan_payment_state.dart';
+import 'package:flutter_qr_scan/flutter_qr_scan.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScanPaymentPage extends StatefulWidget {
@@ -19,8 +24,13 @@ class _ScanPaymentPageState extends State<ScanPaymentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Make Payment'),
+       appBar: AppBar(
+        backgroundColor: Color(0xFF5465FF),
+        title: const Text(
+          'Make Payment',
+          style: TextStyle(color: Colors.white),
+        ),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
        body: BlocListener<ScanPaymentBloc, ScanPaymentState>(
         listener: (context, state) {
@@ -32,7 +42,7 @@ class _ScanPaymentPageState extends State<ScanPaymentPage> {
           if(state is MakeNavigateWithPayment){
              Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MakePaymentPage(payment :state.payment)),
+                MaterialPageRoute(builder: (context) => MakePaymentPage(payment: state.payment)),
               );
           }
 
@@ -57,6 +67,15 @@ class _ScanPaymentPageState extends State<ScanPaymentPage> {
                             onQRViewCreated: _onQRViewCreated,
                           ),
                           // Your own button widget
+                          Positioned(
+                            bottom: 80.0,
+                            left: 0,
+                            right: 0,
+                            child: ElevatedButton(
+                              onPressed: _scanQRFromGallery,
+                              child: const Text('Scan From Gallery'),
+                            ),
+                          ),
                           Positioned(
                             bottom: 20.0,
                             left: 0,
@@ -135,4 +154,27 @@ class _ScanPaymentPageState extends State<ScanPaymentPage> {
               },
             );
   }
+
+  void _scanQRFromGallery() async {
+  try {
+   var image = await ImagePicker().getImage(source: ImageSource.gallery);
+    if (image == null) return;
+
+    File file = File(image.path);
+    final rest = await FlutterQrReader.imgScan(file);
+
+     BlocProvider.of<ScanPaymentBloc>(context).add(
+          ScanQRCode(rest??"")
+        );
+        
+  } catch (e) {
+    print('Error scanning QR code from gallery: $e');
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to scan QR code from gallery: $e'),
+      ),
+    );
+  }
+}
+
 }

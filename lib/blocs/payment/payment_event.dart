@@ -52,3 +52,11 @@ class CoolingPeriodChangedEvent extends PaymentEvent {
   @override
   List<Object?> get props => [newValue];
 }
+
+class CheckPaymentEvent extends PaymentEvent{
+  final String paymentId;
+  const CheckPaymentEvent(this.paymentId);
+
+  @override
+  List<Object?> get props =>[ paymentId];
+}

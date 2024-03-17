@@ -21,7 +21,7 @@ TransactionHistoryBloc(TransactionHistoryState transactionHistoryInitial, this.r
         }
         }
         catch(error){
-           emit(TransactionHistoryFailure(error.toString()));
+           emit(TransactionHistoryFailure(error.toString().replaceAll('Exception: ', '')));
         }
     });
 }
