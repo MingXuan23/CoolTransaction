@@ -7,9 +7,12 @@ class TransactionCard extends StatelessWidget {
   TransactionCard({required this.transaction});
 
 
-String getDateFormat(Transaction transaction){
+String getDateFormat(DateTime ?date){
+  if(date == null){
+    return "";
+  }
   return 
-    '${transaction.date.year}/${transaction.date.month}/${transaction.date.day} ${transaction.date.hour.toString().padLeft(2, '0')}:${transaction.date.minute.toString().padLeft(2, '0')}:${transaction.date.second.toString().padLeft(2, '0')}' ;
+    '${date.year}/${date.month}/${date.day} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}' ;
 
 }
   @override
@@ -38,36 +41,50 @@ String getDateFormat(Transaction transaction){
         borderRadius: BorderRadius.circular(12.0), // Adjust the radius as needed
       ),
       child: Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  crossAxisAlignment: CrossAxisAlignment.center,
-  children: [
-    // Existing content wrapped in a Column
-    Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      
-      children: [
-        Text(
-          '$operator RM ${transaction.amount.toStringAsFixed(2)}',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20),
-        ),
-        Text(
-          '$hint ${transaction.relatedUser?.email ?? 'Unknown'}',
-          style: TextStyle(color: Colors.white, fontSize: 18),
-        ),
-        Text(
-          getDateFormat(transaction),
-          style: TextStyle(color: Colors.white, fontSize: 18),
-        ),
-      ],
-    ),
-    // Status widget placed on the right-hand side
-    Text(
-      transaction.status,
-      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white,fontSize: 25),
-    ),
-  ],
-),
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Existing content wrapped in a Column
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            
+            children: [
+              Text(
+                '$operator RM ${transaction.amount.toStringAsFixed(2)}',
+                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20),
+              ),
+              Text(
+                '$hint ${transaction.relatedUser?.email ?? 'Unknown'}',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              Text(
+                getDateFormat(transaction.date),
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ],
+          ),
+            Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            
+            children: [
+              Text(
+                transaction.status,
+                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white,fontSize: 25),
+              ),
+
+              if(transaction.status=="Pending")
+                Text(
+                    getDateFormat(transaction.estimateSuccessTime??null),
+                    style: TextStyle( color: Colors.white),
+                  ),
+            ],
+          ),
+          // Status widget placed on the right-hand side
+          
+        ],
+      ),
 
     ));
 

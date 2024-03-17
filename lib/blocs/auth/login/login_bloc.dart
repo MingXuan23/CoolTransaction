@@ -8,7 +8,7 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   UserRepository repo;
 
-  LoginBloc(LoginState LoginInitial, this.repo) : super(LoginInitial) {
+  LoginBloc(LoginState loginInitial, this.repo) : super(loginInitial) {
     on<LoginButtonPressed>((event, emit) async {
       emit(LoginLoading());
       try {
@@ -19,7 +19,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           emit(LoginFailure('Login failed'));
         }
       } catch (error) {
-        emit(LoginFailure(error.toString()));
+        emit(LoginFailure(error.toString().replaceAll('Exception: ', '')));
       }
     });
   }

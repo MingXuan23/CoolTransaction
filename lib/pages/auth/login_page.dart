@@ -4,6 +4,7 @@ import 'package:cool_transaction/widget/common/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cool_transaction/widget/common/large_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,10 +14,30 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   bool _obscureText = true;
+
+  @override
+@override
+void initState() {
+  super.initState();
+  checkLoggedInUser();
+}
+
+void checkLoggedInUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userId = prefs.getString('user'); // Assuming 'userId' is the key used to store the user ID
+    if (userId != null) {
+      // If user is already logged in, navigate to home page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +45,13 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.lightBlue,
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
+
           if (state is LoginFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error)),
             );
           }
-          if (state is LoginLoading) {
+          if (state is LoginLoading ) {
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
@@ -37,11 +59,16 @@ class _LoginPageState extends State<LoginPage> {
                 },
             );
           }
+          else {
+            // Dismiss the dialog if it's shown
+            Navigator.of(context, rootNavigator: true).pop();
+          }
+
           if (state is LoginSuccess ) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
+           Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()),
+                );
           }
         },
         child: BlocBuilder<LoginBloc, LoginState>(

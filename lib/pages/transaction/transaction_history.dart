@@ -1,4 +1,4 @@
-import 'package:cool_transaction/blocs/transaction/transaction_history_bloc.dart';
+import 'package:cool_transaction/blocs/transaction/history/transaction_history_bloc.dart';
 import 'package:cool_transaction/models/transaction.dart';
 import 'package:cool_transaction/widget/common/loading_widget.dart';
 import 'package:cool_transaction/widget/transaction_widget/transaction_card.dart';

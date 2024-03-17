@@ -23,3 +23,5 @@ class HomeLoadedState extends HomeState {
 }
 
 class HomeLogoutState extends HomeState {}
+
+class HomeLoginExpiredState extends HomeState {}
