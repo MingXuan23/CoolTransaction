@@ -9,7 +9,6 @@ sealed class ScanPaymentEvent extends Equatable {
 }
 
 class ScanQRCode extends ScanPaymentEvent {
-
   final String url;
   const ScanQRCode(this.url);
 
@@ -21,4 +20,3 @@ class MakePaymentPressed extends ScanPaymentEvent {
   @override
   List<Object> get props => [];
 }
-
