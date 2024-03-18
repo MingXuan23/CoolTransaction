@@ -7,6 +7,8 @@ import 'package:cool_transaction/blocs/scan_payment/scan_payment_state.dart';
 import 'package:cool_transaction/blocs/transaction/history/transaction_history_bloc.dart';
 import 'package:cool_transaction/blocs/transaction/refund/refund_status_bloc.dart';
 import 'package:cool_transaction/pages/auth/login_page.dart';
+import 'package:cool_transaction/pages/auth/landing_page.dart';
+import 'package:cool_transaction/pages/transaction/transaction_history.dart';
 import 'package:cool_transaction/repositories/refund_repostiory.dart';
 import 'package:cool_transaction/repositories/transaction_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +18,7 @@ import 'package:flutter/material.dart';
 import 'repositories/payment_repository.dart';
 
 void main() {
-  runApp(MyApp(home: LoginPage()));
+  runApp(MyApp(home: WelcomeScreen()));
 }
 
 class MyApp extends StatelessWidget {
