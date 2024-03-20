@@ -7,6 +7,7 @@ import 'package:cool_transaction/pages/auth/login_page.dart';
 import 'package:cool_transaction/pages/payment/add_payment_page.dart';
 import 'package:cool_transaction/pages/payment/scan_payment_page.dart';
 import 'package:cool_transaction/pages/transaction/transaction_history.dart';
+import 'package:cool_transaction/widget/transaction_widget/info_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -230,9 +231,9 @@ class _HomeViewState extends State<HomeView> {
                   Positioned(
                     left: 0,
                     right: 0,
-                    bottom: -340,
+                    bottom: -360,
                     child: Container(
-                      height: 250, // Adjust height as needed
+                      height: 275, // Adjust height as needed
                       padding:
                           EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                       margin: EdgeInsets.symmetric(
@@ -250,53 +251,13 @@ class _HomeViewState extends State<HomeView> {
                           ),
                         ],
                       ),
-                      child: Center(
-                        child: ListView.builder(
-                          itemCount: state.transactions.length,
-                          itemBuilder: (context, index) {
-                            final transaction = state.transactions[index];
-                            // Determine text color based on transaction status
-                            Color textColor;
-                            if (transaction.status == 'Scam' ||
-                                transaction.status == 'Refund') {
-                              textColor = Color(
-                                  0xFFFF5959); // Red color for scam and refund
-                            } else if (transaction.status == 'Pending') {
-                              textColor = Color.fromARGB(
-                                  255, 202, 159, 6); // Yellow color for pending
-                            } else {
-                              textColor =
-                                  Color(0xFF5465FF); // Blue color for success
-                            }
-                            // Determine background color based on transaction type
-                            return Container(
-                              margin: EdgeInsets.symmetric(
-                                  vertical: 8), // Add vertical margin
-                              decoration: BoxDecoration(
-                                color: Colors.white, // Background color
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: ListTile(
-                                leading: Icon(
-                                  transaction.type == "Pay"
-                                      ? Icons.keyboard_double_arrow_left_rounded
-                                      : Icons
-                                          .keyboard_double_arrow_right_rounded,
-                                  color: textColor,
-                                ),
-                                title: Text(
-                                  '${transaction.relatedUser?.name ?? "Unknown User"}',
-                                  style:
-                                      TextStyle(fontSize: 18, color: textColor),
-                                ),
-                                trailing: Text(
-                                  'RM${transaction.amount.toStringAsFixed(2)}',
-                                  style:
-                                      TextStyle(fontSize: 18, color: textColor),
-                                ),
-                              ),
-                            );
-                          },
+                     child: Center(
+                        child: ListView(
+                          children: [
+                            InfoTile('Current Credit:' ,'100',null),
+                            InfoTile('Active Payment:' ,'1',null),
+                            InfoTile('Cooling Amount:' ,'100',null),
+                          ],
                         ),
                       ),
                     ),
@@ -356,3 +317,9 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
+
+
+//receiver create payment
+//payer enter payment id
+//payer will make transaction based on payment
+

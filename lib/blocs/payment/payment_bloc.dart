@@ -56,9 +56,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       if (parsedValue > 21) {
         parsedValue = 21;
         message = "The cooling period cannot greater than 21 days";
-      } else if (parsedValue < 3) {
-        parsedValue = 3;
-        message = "The cooling period cannot less than 3 days";
+      } else if (parsedValue < 1) {
+        parsedValue = 1;
+        message = "The cooling period cannot less than 1 days";
       }
 
       newValue = parsedValue.toString();
@@ -102,6 +102,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       final payment = await repo.getPaymentByManual(event.paymentId);
 
       emit(FetchPaymentState(payment));
+      emit(PaymentInitialState());
     } catch (error) {
       emit(PaymentFailure(error.toString().replaceAll('Exception: ', '')));
     }

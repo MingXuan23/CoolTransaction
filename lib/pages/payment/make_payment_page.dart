@@ -113,6 +113,16 @@ class _MakePaymentPageState extends State<MakePaymentPage> {
                       initialValue:  payment!.amount.toString(),
                       enabled:  payment!.amount == null,
                     ),
+                     SizedBox(height: 8),
+                     Text(
+                      'Service Charge: RM 1.00',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                     SizedBox(height: 8),
+                     Text(
+                      'Total: RM${(payment!.amount! +1).toStringAsFixed(2)}',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -12,9 +12,9 @@ class RefundStatusPage extends StatefulWidget {
 }
 
 class _RefundStatusPageState extends State<RefundStatusPage> {
-  late Refund? refund;
-  late String? text = "";
-  late String? imgName = "";
+  Refund? refund;
+   String? text = "";
+   String? imgName = "";
 
   @override
   void initState() {

@@ -208,12 +208,27 @@ void checkLoggedInUser() async {
                                              const SizedBox(
                                                height: 4.0,
                                              ),
-                                             LargeButton(
-                                               buttonText: 'Log in',
-                                               onTap: const HomePage(),
-                                               color: Colors.blueAccent.shade700,
-                                               textColor: Colors.white,
-                                            ),
+                                            ElevatedButton(
+                                                    onPressed: () {
+                                                      if (state is! LoginLoading) {
+                                                        BlocProvider.of<LoginBloc>(context).add(
+                                                          LoginButtonPressed(
+                                                            email: _emailController.text,
+                                                            password: _passwordController.text,
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
+                                                    child: Text(
+                                                      'Log In',
+                                                      style: TextStyle(color: Colors.white),
+                                                    ),
+                                                    style: ButtonStyle(
+                                                      backgroundColor: MaterialStateProperty.all<Color>(
+                                                        Colors.blue,
+                                                      ),
+                                                    ),
+                                                    )
                                            ],
                                          ),
                                        ),
