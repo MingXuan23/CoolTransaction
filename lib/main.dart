@@ -7,9 +7,6 @@ import 'package:cool_transaction/blocs/scan_payment/scan_payment_state.dart';
 import 'package:cool_transaction/blocs/transaction/history/transaction_history_bloc.dart';
 import 'package:cool_transaction/blocs/transaction/refund/refund_status_bloc.dart';
 import 'package:cool_transaction/pages/auth/login_page.dart';
-import 'package:cool_transaction/pages/transaction/refund/refund_request_page.dart';
-import 'package:cool_transaction/pages/transaction/refund/refund_status_page.dart';
-import 'package:cool_transaction/pages/transaction/transaction_history.dart';
 import 'package:cool_transaction/repositories/refund_repostiory.dart';
 import 'package:cool_transaction/repositories/transaction_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +30,6 @@ class MyApp extends StatelessWidget {
         BlocProvider<LoginBloc>(
           create: (context) => LoginBloc(LoginInitial(), UserRepository()),
         ),
-
         BlocProvider<HomeBloc>(
           create: (context) => HomeBloc(),
         ),
@@ -54,7 +50,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Cool Transaction',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF5465FF)),
           useMaterial3: true,
         ),
         home: this.home,

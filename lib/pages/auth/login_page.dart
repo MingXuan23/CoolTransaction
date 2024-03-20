@@ -251,7 +251,7 @@ class _LoginPageState extends State<LoginPage> {
                                         style: ButtonStyle(
                                           backgroundColor:
                                               MaterialStateProperty.all<Color>(
-                                            Colors.blue,
+                                            Color(0xFF5465FF),
                                           ),
                                         ),
                                         child: const Text(
