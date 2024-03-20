@@ -24,6 +24,20 @@ class UserRepository {
     return loginStatus;
   }
 
+  Future<bool> register(String email, String password) async {
+    bool loginStatus = users
+        .any((user) => user.email == email && user.password == password);
+    if(loginStatus){
+      User user = users.firstWhere((user) => user.email == email && user.password == password);
+      String userJson = json.encode(user.toJson());
+
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('user', userJson);
+
+    }
+    return loginStatus;
+  }
+
   Future<void> logout() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('user');
