@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:cool_transaction/models/transaction.dart';
 
 abstract class HomeState extends Equatable {
   const HomeState();
@@ -11,7 +12,7 @@ class HomeInitialState extends HomeState {}
 
 class HomeLoadedState extends HomeState {
   final String username;
-  final List<Map<String, String>> transactions;
+  final List<Transaction> transactions;
 
   const HomeLoadedState({
     required this.username,

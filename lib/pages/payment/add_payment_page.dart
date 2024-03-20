@@ -270,7 +270,8 @@ class AddPaymentState extends State<AddPaymentPage> {
     );
   }
 
-  void _updateCreateButtonState() {
+  void _updateCreateButtonState() async {
+      await Future.delayed(const Duration(milliseconds: 500));
       final description = _descriptionController.text;
       final coolingPeriod = _coolingPeriodController.text;
       setState(() {

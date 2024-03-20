@@ -15,7 +15,7 @@ class TransactionHistoryPage extends StatefulWidget {
 class TransactionHisState extends State<TransactionHistoryPage> {
   List<Transaction> transactionList = [];
 
-   @override
+  @override
   void initState() {
     super.initState();
     // Dispatch the FetchTransactionHistory event when the page is loaded
@@ -26,50 +26,48 @@ class TransactionHisState extends State<TransactionHistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
-      //backgroundColor: Colors.lightBlue,
-     appBar: AppBar(
-        backgroundColor: Color(0xFF5465FF), // Set AppBar background color
-        title: Text(
-          'Transaction History',
-          style: TextStyle(color: Colors.white), 
-          // Set text color to white
+    return Scaffold(
+        //backgroundColor: Colors.lightBlue,
+        appBar: AppBar(
+          backgroundColor: Color(0xFF5465FF), // Set AppBar background color
+          title: Text(
+            'Transaction History',
+            style: TextStyle(color: Colors.white),
+            // Set text color to white
+          ),
+          iconTheme: IconThemeData(color: Colors.white),
         ),
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
-      body: BlocListener<TransactionHistoryBloc, TransactionHistoryState>(
-        listener: (context, state) {
-          if (state is TransactionHistoryFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error)),
-            );
-          }
-
-          if (state is TransactionHistorySuccess) {
-             transactionList = state.transactionList;
-          }
-        },
-        child: BlocBuilder<TransactionHistoryBloc, TransactionHistoryState>(
-          builder: (context, state) {
-
-            if(state is TransactionHistoryLoading){
-               return LoadingOverlay();
+        body: BlocListener<TransactionHistoryBloc, TransactionHistoryState>(
+          listener: (context, state) {
+            if (state is TransactionHistoryFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.error)),
+              );
             }
-            return SafeArea(
-              child: transactionList.isNotEmpty 
-                  ? ListView.builder(
-                      itemCount: transactionList.length,
-                      itemBuilder: (context, index) {
-                        return TransactionCard(transaction: transactionList[index]);
-                      },
-                    )
-                  : const Center(
-                      child: Text("No record"),
-                  )
-            );
+
+            if (state is TransactionHistorySuccess) {
+              transactionList = state.transactionList;
+            }
           },
-      ),
-    )
-    );
+          child: BlocBuilder<TransactionHistoryBloc, TransactionHistoryState>(
+            builder: (context, state) {
+              if (state is TransactionHistoryLoading) {
+                return LoadingOverlay();
+              }
+              return SafeArea(
+                  child: transactionList.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: transactionList.length,
+                          itemBuilder: (context, index) {
+                            return TransactionCard(
+                                transaction: transactionList[index]);
+                          },
+                        )
+                      : const Center(
+                          child: Text("No record"),
+                        ));
+            },
+          ),
+        ));
   }
 }

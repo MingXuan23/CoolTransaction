@@ -1,14 +1,15 @@
 import 'package:cool_transaction/blocs/auth/login/login_bloc.dart';
-import 'package:cool_transaction/pages/payment/add_payment_page.dart';
-import 'package:cool_transaction/pages/payment/scan_payment_page.dart';
-import 'package:cool_transaction/pages/transaction/transaction_history.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:cool_transaction/blocs/home/home_bloc.dart';
 import 'package:cool_transaction/blocs/home/home_event.dart';
 import 'package:cool_transaction/blocs/home/home_state.dart';
+import 'package:cool_transaction/models/transaction.dart';
 import 'package:cool_transaction/pages/auth/login_page.dart';
+import 'package:cool_transaction/pages/payment/add_payment_page.dart';
+import 'package:cool_transaction/pages/payment/scan_payment_page.dart';
+import 'package:cool_transaction/pages/transaction/transaction_history.dart';
+import 'package:cool_transaction/widget/transaction_widget/info_tile.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,13 +34,17 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF5465FF),
+        toolbarHeight: 0,
+      ),
       body: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
           if (state is HomeLogoutState) {
             _showLogoutConfirmationDialog(context);
           }
 
-          if (state is HomeLoginExpiredState){  
+          if (state is HomeLoginExpiredState) {
             _loginExpired(context);
           }
         },
@@ -112,90 +117,147 @@ class _HomeViewState extends State<HomeView> {
                   Positioned(
                     left: 0,
                     right: 0,
-                    bottom: -40, // Adjust this value to control the overlap
+                    bottom: -40,
                     child: FractionallySizedBox(
-                      widthFactor: 0.85, // Adjust the width factor as needed
+                      widthFactor: 0.85,
                       child: Container(
                         decoration: BoxDecoration(
                           color: Color.fromARGB(255, 255, 255, 255),
                           boxShadow: [
                             BoxShadow(
-                              color:
-                                  Colors.grey.withOpacity(0.5), // Shadow color
-                              spreadRadius: 2, // Spread radius
-                              blurRadius: 5, // Blur radius
-                              offset: Offset(0, 3), // Offset position of shadow
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
                             ),
                           ],
-                          borderRadius:
-                              BorderRadius.circular(20), // Rounded border
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment
-                                .spaceEvenly, // Aligns the buttons evenly
-                            children: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => ScanPaymentPage()),
-                                      );
-                                },
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.payment_rounded,
-                                      color: Color(0xFF5465FF),
-                                      size: 32,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Expanded(
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ScanPaymentPage(),
+                                          ),
+                                        );
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            Icons.payment_rounded,
+                                            color: Color(0xFF5465FF),
+                                            size: 32,
+                                          ),
+                                          Text(
+                                            'Make\nPayment',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    Text('Make\nPayment',
-                                        textAlign: TextAlign.center),
-                                  ],
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                   Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => const AddPaymentPage()),
-                                      );
-                                  // Add your onPressed logic for Add Payment button
-                                },
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.add,
-                                      color: Color(0xFF5465FF),
-                                      size: 36,
+                                  ),
+                                  Expanded(
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const AddPaymentPage(),
+                                          ),
+                                        );
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            Icons.add,
+                                            color: Color(0xFF5465FF),
+                                            size: 36,
+                                          ),
+                                          Text(
+                                            'Add\nPayment',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    Text('Add\nPayment',
-                                        textAlign: TextAlign.center),
-                                  ],
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                   Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => const TransactionHistoryPage()),
-                                      );
-                                },
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.history,
-                                      color: Color(0xFF5465FF),
-                                      size: 32,
+                                  ),
+                                  Expanded(
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const TransactionHistoryPage(),
+                                          ),
+                                        );
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            Icons.history,
+                                            color: Color(0xFF5465FF),
+                                            size: 32,
+                                          ),
+                                          Text(
+                                            'View\nTransactions',
+                                            textAlign: TextAlign.center,
+                                            softWrap: false,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    Text('View\nTransactions',
-                                        textAlign: TextAlign.center),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: -360,
+                    child: Container(
+                      height: 275, // Adjust height as needed
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                      margin: EdgeInsets.symmetric(
+                          horizontal: 20), // Add horizontal margin
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF5465FF), // Background color
+                        borderRadius:
+                            BorderRadius.circular(20), // Rounded corners
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
                           ),
+                        ],
+                      ),
+                     child: Center(
+                        child: ListView(
+                          children: [
+                            InfoTile('Current Credit:' ,'100',null),
+                            InfoTile('Active Payment:' ,'1',null),
+                            InfoTile('Cooling Amount:' ,'100',null),
+                          ],
                         ),
                       ),
                     ),
@@ -214,7 +276,7 @@ class _HomeViewState extends State<HomeView> {
   Future<void> _showLogoutConfirmationDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // User must tap button!
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Confirm Logout'),
@@ -234,10 +296,7 @@ class _HomeViewState extends State<HomeView> {
             ),
             TextButton(
               onPressed: () {
-
-                BlocProvider.of<HomeBloc>(context).add(
-                      LogoutButtonPressed()
-                              );
+                BlocProvider.of<HomeBloc>(context).add(LogoutButtonPressed());
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -252,13 +311,15 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Future<void> _loginExpired(BuildContext context) async {
-   
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-        );
-
-      }
-    
-  
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginPage()),
+    );
+  }
 }
+
+
+//receiver create payment
+//payer enter payment id
+//payer will make transaction based on payment
+

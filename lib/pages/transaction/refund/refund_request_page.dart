@@ -52,7 +52,8 @@ class _RefundRequestPageState extends State<RefundRequestPage> {
                       'Amount:',
                       style: TextStyle(fontSize: 16),
                     ),
-                  ),Align(
+                  ),
+                  Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'RM100.00',

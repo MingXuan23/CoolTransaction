@@ -31,7 +31,7 @@ String getDateFormat(DateTime ?date){
 
      return GestureDetector(
       onTap: () {
-       
+       //navigate
       },
       child: Container(
       padding: EdgeInsets.all(16.0),
