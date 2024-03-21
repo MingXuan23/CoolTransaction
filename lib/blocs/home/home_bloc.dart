@@ -5,7 +5,7 @@ import 'package:cool_transaction/models/user.dart';
 import 'package:cool_transaction/repositories/user_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cool_transaction/pages/transaction/transaction_repository.dart';
+import 'package:cool_transaction/repositories/transaction_repository.dart';
 
 import 'home_event.dart';
 import 'home_state.dart';

@@ -18,10 +18,10 @@ class TransactionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, Color> colors = {
-      'Scam': Color(0xFFFF5959),
+      'Scam Reported': Color(0xFFFF5959),
       'Refund Requesting': Color(0xFFFF5959),
-      'Refunded': Color(0xFFFF5959),
-      'Refund Pending': Color(0xFFFF5959),
+      'Refunded': Color(0xFF5465FF),
+      'Refund Pending': Color(0xFFF5C71A),
       'Refund Rejected': Color(0xFFFF5959),
       'Pending': Color(0xFFF5C71A),
       'Success': Color(0xFF5465FF),

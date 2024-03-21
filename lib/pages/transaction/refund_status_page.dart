@@ -1,6 +1,6 @@
 import 'package:cool_transaction/blocs/transaction/refund/refund_status_bloc.dart';
-import 'package:cool_transaction/models/refund.dart';
 import 'package:cool_transaction/models/transaction.dart';
+import 'package:cool_transaction/pages/transaction/refund_request_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +19,9 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
   @override
   void initState() {
     super.initState();
-    context.read<RefundStatusBloc>().add(GetRefundEvent(transaction: widget.transaction));
+    context
+        .read<RefundStatusBloc>()
+        .add(GetRefundEvent(transaction: widget.transaction));
   }
 
   @override
@@ -35,7 +37,6 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
       ),
       body: BlocListener<RefundStatusBloc, RefundStatusState>(
         listener: (context, state) {
-
           if (state is RefundStatusInitial) {}
 
           if (state is RefundStatusLoading) {}
@@ -63,22 +64,10 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
                     children: [
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              text,
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            Text(
-                              "RM" +
-                                  widget.transaction.amount.toString() +
-                                  " to the bank account.",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                        child: Text(
+                          text,
+                          style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ),
                       Align(
@@ -87,7 +76,9 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
                           width: 50,
                           height: 50,
                           child: Image.asset(
-                             imgName != "" ? "assets/images/" + imgName : "assets/images/loading.png",
+                            imgName != ""
+                                ? "assets/images/" + imgName
+                                : "assets/images/loading.png",
                             fit: BoxFit.cover, // Adjust the fit as needed
                           ),
                         ),
@@ -234,13 +225,14 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
                         ),
                       ),
                     )
-                    else if (widget.transaction.status == 'Refund Rejected')
+                  else if (widget.transaction.status == 'Refund Rejected')
                     SizedBox(
                       width: double.infinity,
                       height: 55.0,
                       child: ElevatedButton(
                         onPressed: () {
                           // Handle cancel button click
+                          
                         },
                         child: Text(
                           'Report Scam',
@@ -254,8 +246,7 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
                       ),
                     )
                   else
-                    SizedBox
-                        .shrink() 
+                    SizedBox.shrink()
                 ],
               ),
             );

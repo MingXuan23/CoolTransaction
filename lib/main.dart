@@ -6,9 +6,10 @@ import 'package:cool_transaction/blocs/scan_payment/scan_payment_bloc.dart';
 import 'package:cool_transaction/blocs/scan_payment/scan_payment_state.dart';
 import 'package:cool_transaction/blocs/transaction/history/transaction_history_bloc.dart';
 import 'package:cool_transaction/blocs/transaction/refund/refund_status_bloc.dart';
+import 'package:cool_transaction/blocs/transaction/status/transaction_status_bloc.dart';
 import 'package:cool_transaction/pages/auth/login_page.dart';
 import 'package:cool_transaction/repositories/refund_repostiory.dart';
-import 'package:cool_transaction/pages/transaction/transaction_repository.dart';
+import 'package:cool_transaction/repositories/transaction_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cool_transaction/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,9 @@ class MyApp extends StatelessWidget {
         ),
          BlocProvider<RefundStatusBloc>(
           create: (context) => RefundStatusBloc(RefundStatusInitial(), RefundRepository()),
+        ),
+        BlocProvider<TransactionStatusBloc>(
+          create: (context) => TransactionStatusBloc(TransactionStatusInitial(), TransactionRepository()),
         ),
       ],
       child: MaterialApp(

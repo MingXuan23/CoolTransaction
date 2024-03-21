@@ -30,7 +30,7 @@ class TransactionRepository {
         User(1, "aada", "asdads", "John"),
         User(2, "bbbb", "bbbb", "David"),
         DateTime.parse("2024-03-18")),
-    Transaction(DateTime.now(), 50, "Receive", "Scam",
+    Transaction(DateTime.now(), 50, "Receive", "Scam Reported",
         User(1, "aada", "asdads", "John"), User(2, "bbbb", "bbbb", "David")),
     Transaction.hasRefund(
       DateTime.parse("2024-03-15"),
