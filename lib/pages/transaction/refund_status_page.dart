@@ -1,6 +1,6 @@
 import 'package:cool_transaction/blocs/transaction/refund/refund_status_bloc.dart';
 import 'package:cool_transaction/models/transaction.dart';
-import 'package:cool_transaction/pages/transaction/refund_request_page.dart';
+import 'package:cool_transaction/pages/transaction/report_scam_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -67,7 +67,7 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
                         child: Text(
                           text,
                           style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ),
                       Align(
@@ -232,7 +232,11 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
                       child: ElevatedButton(
                         onPressed: () {
                           // Handle cancel button click
-                          
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ReportScamPage(),
+                            ),
+                          );
                         },
                         child: Text(
                           'Report Scam',

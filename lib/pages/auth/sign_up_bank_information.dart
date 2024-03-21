@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cool_transaction/widget/common/large_button.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cool_transaction/pages/auth/login_page.dart';
 
 const List<String> list = <String>[

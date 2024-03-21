@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cool_transaction/widget/common/large_button.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cool_transaction/pages/auth/login_page.dart';
 import 'package:cool_transaction/pages/auth/sign_up_bank_information.dart';
 import 'package:image_picker/image_picker.dart';

@@ -1,9 +1,11 @@
 flutter_native_splash:
   color: "#5465FF"
   image: "assets/images/safetyBox.png"
+  fill: true
 
   android_12:
     color: "#5465FF"
     image: "assets/images/safetyBox.png"
+    fill: true
 
   web: false

@@ -1,8 +1,6 @@
 import 'package:cool_transaction/pages/auth/login_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cool_transaction/widget/common/large_button.dart';
-import 'package:cool_transaction/pages/auth/login_page.dart';
 import 'package:cool_transaction/pages/auth/sign_up_personal_information.dart';
 
 class SignUpScreen extends StatefulWidget {

@@ -45,7 +45,7 @@ dependencies:
   image_gallery_saver: ^2.0.3
   path_provider: ^2.1.2
   flutter_qr_scan: ^1.0.7
-  image_picker: ^0.7.5+4
+  image_picker: ^0.7.5+2
   permission_handler: ^11.0.1
   gallery_saver: ^2.3.2
   flutter_native_splash: ^2.4.0
