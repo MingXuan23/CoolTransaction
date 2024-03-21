@@ -67,11 +67,7 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/images/safetyBox.png
-    - assets/images/completed.png
-    - assets/images/pending.png
-    - assets/images/rejected.png
-    - assets/images/withdraw.png
+    - assets/images/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

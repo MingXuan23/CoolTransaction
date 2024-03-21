@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cool_transaction/models/refund.dart';
+import 'package:cool_transaction/models/transaction.dart';
 import 'package:cool_transaction/repositories/refund_repostiory.dart';
 import 'package:equatable/equatable.dart';
 
@@ -14,25 +15,18 @@ class RefundStatusBloc extends Bloc<RefundStatusEvent, RefundStatusState> {
     on<GetRefundEvent>((event, emit) async {
       emit(RefundStatusLoading());
 
-      Refund? refund = await this.repo.getRefundById(event.id);
-
-      if (refund == null) {
-        emit(RefundStatusLoadedFailure("Invalid refund"));
-        return;
-      }
-
       var map = {
-        "completed": ["You have been refunded", "completed.png"],
-        "pending": ["You are requesting refund", "pending.png"],
-        "rejected": ["You are rejected for refund", "rejected.png"],
-        "requesting": ["You have been requested for refund", "withdraw.png"],
+        "Refunded": ["You have been refunded", "completed.png"],
+        "Refund Pending": ["You are requesting refund", "pending.png"],
+        "Refund Rejected": ["You are rejected for refund", "rejected.png"],
+        "Refund Requesting": ["You have been requested for refund", "withdraw.png"],
       };
 
-      String text = map[refund.status]?[0] ?? "";
-      String imageName = map[refund.status]?[1] ?? "";
+      String text = map[event.transaction.status]?[0] ?? "";
+      String imageName = map[event.transaction.status]?[1] ?? "";
 
       if (text.isNotEmpty) {
-        emit(RefundStatusLoaded(refund: refund, text: text, imageName: imageName));
+        emit(RefundStatusLoaded(text: text, imageName: imageName));
       } else {
         emit(RefundStatusLoadedFailure("Invalid refund status"));
       }

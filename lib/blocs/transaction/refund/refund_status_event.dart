@@ -9,7 +9,7 @@ sealed class RefundStatusEvent extends Equatable {
 
 
 class GetRefundEvent extends RefundStatusEvent {
-  final int id;
+  final Transaction transaction;
 
-  const GetRefundEvent({required this.id});
+  const GetRefundEvent({required this.transaction});
 }

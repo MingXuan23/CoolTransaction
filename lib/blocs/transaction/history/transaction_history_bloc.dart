@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cool_transaction/models/transaction.dart';
-import 'package:cool_transaction/repositories/transaction_repository.dart';
+import 'package:cool_transaction/pages/transaction/transaction_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'transaction_history_event.dart';

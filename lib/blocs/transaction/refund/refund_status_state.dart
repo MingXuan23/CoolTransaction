@@ -12,11 +12,10 @@ final class RefundStatusInitial extends RefundStatusState {}
 class RefundStatusLoading extends RefundStatusState {}
 
 class RefundStatusLoaded extends RefundStatusState {
-  final Refund refund;
   final String text;
   final String imageName;
 
-  const RefundStatusLoaded({required this.refund, required this.text, required this.imageName}); 
+  const RefundStatusLoaded({required this.text, required this.imageName}); 
 }
 
 class RefundStatusLoadedFailure extends RefundStatusState {

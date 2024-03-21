@@ -1,6 +1,3 @@
-import 'package:cool_transaction/models/transaction.dart';
-import 'package:cool_transaction/models/user.dart';
-
 class Refund {
   int id;
   String paymentId;
@@ -8,8 +5,6 @@ class Refund {
   String requestNo;
   String reason;
   String description;
-  String status;
-  Transaction transaction;
 
   Refund({
     required this.id,
@@ -18,7 +13,5 @@ class Refund {
     required this.requestNo,
     required this.reason,
     required this.description,
-    required this.status,
-    required this.transaction
   });
 }

@@ -1,25 +1,25 @@
 import 'package:cool_transaction/blocs/transaction/refund/refund_status_bloc.dart';
 import 'package:cool_transaction/models/refund.dart';
+import 'package:cool_transaction/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RefundStatusPage extends StatefulWidget {
-  final int id;
-  const RefundStatusPage({super.key, required this.id});
+  final Transaction transaction;
+  const RefundStatusPage({super.key, required this.transaction});
 
   @override
   State<RefundStatusPage> createState() => _RefundStatusPageState();
 }
 
 class _RefundStatusPageState extends State<RefundStatusPage> {
-  Refund? refund;
-   String? text = "";
-   String? imgName = "";
+  String text = "";
+  String imgName = "";
 
   @override
   void initState() {
     super.initState();
-    context.read<RefundStatusBloc>().add(GetRefundEvent(id: widget.id));
+    context.read<RefundStatusBloc>().add(GetRefundEvent(transaction: widget.transaction));
   }
 
   @override
@@ -42,7 +42,6 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
 
           if (state is RefundStatusLoaded) {
             setState(() {
-              refund = state.refund;
               text = state.text;
               imgName = state.imageName;
             });
@@ -69,12 +68,12 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              text!,
+                              text,
                               style: TextStyle(fontSize: 14),
                             ),
                             Text(
                               "RM" +
-                                  refund!.transaction.amount.toString() +
+                                  widget.transaction.amount.toString() +
                                   " to the bank account.",
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
@@ -88,7 +87,7 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
                           width: 50,
                           height: 50,
                           child: Image.asset(
-                            "assets/images/" + imgName!,
+                             imgName != "" ? "assets/images/" + imgName : "assets/images/loading.png",
                             fit: BoxFit.cover, // Adjust the fit as needed
                           ),
                         ),
@@ -110,7 +109,7 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          refund!.paymentId,
+                          widget.transaction.refund!.paymentId,
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
@@ -124,7 +123,7 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          refund!.transaction.relatedUser!.name,
+                          widget.transaction.relatedUser!.name,
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
@@ -138,7 +137,7 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          refund!.requestedDate.toString(),
+                          widget.transaction.refund!.requestedDate.toString(),
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
@@ -152,7 +151,7 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          refund!.requestNo,
+                          widget.transaction.refund!.requestNo,
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
@@ -166,13 +165,13 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          refund!.reason,
+                          widget.transaction.refund!.reason,
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
                     ],
                   ),
-                  if (refund != null && refund!.status == 'completed')
+                  if (widget.transaction.status == 'Refund Requesting')
                     Column(
                       children: [
                         SizedBox(
@@ -216,7 +215,7 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
                         ),
                       ],
                     )
-                  else if (refund != null && refund!.status == 'pending')
+                  else if (widget.transaction.status == 'Refund Pending')
                     SizedBox(
                       width: double.infinity,
                       height: 55.0,
@@ -235,7 +234,7 @@ class _RefundStatusPageState extends State<RefundStatusPage> {
                         ),
                       ),
                     )
-                    else if (refund != null && refund!.status == 'rejected')
+                    else if (widget.transaction.status == 'Refund Rejected')
                     SizedBox(
                       width: double.infinity,
                       height: 55.0,
