@@ -56,12 +56,12 @@ class _TransactionStatusPageState extends State<TransactionStatusPage> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 50,
+                      height: 10,
                     ),
                     GridView.count(
                       crossAxisCount: 2,
                       shrinkWrap: true,
-                      childAspectRatio: 8 / 4,
+                      childAspectRatio: 1,
                       children: [
                         Align(
                           alignment: Alignment.centerLeft,

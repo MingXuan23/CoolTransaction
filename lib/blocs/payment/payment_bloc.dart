@@ -47,8 +47,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     String message = "";
     int parsedValue = 3;
     if (newValue == "") {
-      parsedValue = 3;
-      message = "The cooling period cannot less than 3 days";
+      parsedValue = 1;
+      message = "The cooling period cannot less than 1 days";
     } else {
       parsedValue =
           int.tryParse(newValue) ?? 1; // Parse the value as an integer
@@ -75,6 +75,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
       final user = User.fromJson(json.decode(userJson));
       emit(FetchReceiverState(user.name));
+      emit(PaymentInitialState());
     } catch (error) {
       emit(PaymentFailure(error.toString()));
     }

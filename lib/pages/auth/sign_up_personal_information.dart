@@ -35,7 +35,7 @@ class _SignUpSecScreenState extends State<SignUpSecScreen> {
                 child: Container(
                   padding: const EdgeInsetsDirectional.symmetric(
                     horizontal: 50,
-                    vertical: 20,
+                    vertical: 10,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.blueAccent.shade700,
@@ -186,7 +186,7 @@ class _SignUpSecScreenState extends State<SignUpSecScreen> {
                                       height: 14.0,
                                     ),
                                     Text(
-                                      'Name',
+                                      'Full Name (Same as IC)',
                                       style: TextStyle(
                                         color: Colors.blueAccent.shade700,
                                       ),
@@ -276,16 +276,19 @@ class _SignUpSecScreenState extends State<SignUpSecScreen> {
                                             ),
                                           ),
                                           Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: const Text(
-                                              'Please provide a clear photo of your\n MyKad / Passport for verification purpose. ',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                              textAlign: TextAlign.left,
-                                            ),
-                                          )
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: const Text(
+                                                  'Please provide a clear photo of \nyour MyKad / Passport for verification\n purpose. ',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                              ))
                                         ],
                                       ),
                                     ),

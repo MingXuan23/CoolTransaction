@@ -20,6 +20,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //resizeToAvoidBottomInset: false,
       body: SafeArea(
           child: Stack(
         children: [
@@ -34,7 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Container(
                   padding: const EdgeInsetsDirectional.symmetric(
                     horizontal: 50,
-                    vertical: 20,
+                    vertical: 10,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.blueAccent.shade700,

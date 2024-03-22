@@ -119,7 +119,7 @@ class _HomeViewState extends State<HomeView> {
                     right: 0,
                     bottom: -40,
                     child: FractionallySizedBox(
-                      widthFactor: 0.85,
+                      widthFactor: 0.95,
                       child: Container(
                         decoration: BoxDecoration(
                           color: Color.fromARGB(255, 255, 255, 255),
@@ -136,10 +136,10 @@ class _HomeViewState extends State<HomeView> {
                         child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(16.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Expanded(
                                     child: TextButton(

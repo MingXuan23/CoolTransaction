@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:cool_transaction/blocs/payment/payment_bloc.dart';
 import 'package:cool_transaction/blocs/payment/payment_event.dart';
 import 'package:cool_transaction/blocs/payment/payment_state.dart';
 import 'package:cool_transaction/pages/home/home_page.dart';
 import 'package:cool_transaction/pages/payment/payment_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cool_transaction/models/payment.dart';
 
@@ -28,6 +31,12 @@ class _MakePaymentPageState extends State<MakePaymentPage> {
     super.initState();
     paymentId =  widget.payment?.paymentId ?? '';
     payment =  widget.payment;
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+    if (payment != null) {
+      showPaymentSnackbar(context);
+    }
+  });
   }
 
   @override
@@ -52,6 +61,7 @@ class _MakePaymentPageState extends State<MakePaymentPage> {
 
           if (state is FetchPaymentState){
             payment = state.payment;
+            showPaymentSnackbar(context);
           }
         },
         child: BlocBuilder<PaymentBloc, PaymentState>(
@@ -156,4 +166,35 @@ class _MakePaymentPageState extends State<MakePaymentPage> {
       ),
     );
   }
+
+  void showPaymentSnackbar(context){
+     //final height = (notification.body?.length??0) + (notification.title?.length??0) ;
+  final snackBarContent = Container(
+    width: MediaQuery.of(context).size.width,
+     height: max((MediaQuery.of(context).size.height *0.15), (MediaQuery.of(context).size.height * 0.004)), // Set the width to match the screen width
+    child: Text(
+      'The user risk index is 17.34%. This is a low risk payment.',
+      style: TextStyle(
+        fontSize: MediaQuery.of(context).size.width * 0.06, 
+        color: Colors.white// Adjust font size based on width
+      ),
+    ),
+  );
+ ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: snackBarContent,
+      duration: const Duration(seconds: 7),
+      action: SnackBarAction(
+        label: 'Dismiss',
+        onPressed: ScaffoldMessenger.of(context).hideCurrentSnackBar,
+         textColor: const Color(0xFF5465FF), 
+         backgroundColor: Colors.white,
+      ),
+       backgroundColor: const Color(0xFF5465FF),
+    ),
+  );
+  }
+
 }

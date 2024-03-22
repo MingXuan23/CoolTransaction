@@ -19,7 +19,7 @@ class TransactionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<String, Color> colors = {
       'Scam Reported': Color(0xFFFF5959),
-      'Refund Requesting': Color(0xFFFF5959),
+      'Refund Requesting': Color(0xFFF5C71A),
       'Refunded': Color(0xFF5465FF),
       'Refund Pending': Color(0xFFF5C71A),
       'Refund Rejected': Color(0xFFFF5959),
@@ -91,7 +91,7 @@ class TransactionCard extends StatelessWidget {
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
-                        fontSize: 20),
+                        fontSize: 18),
                   ),
                   if (transaction.status == "Pending")
                     Text(
