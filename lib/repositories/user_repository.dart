@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserRepository {
   var users = [
     User(1, "mx@test.com", "abc123","Mingxuan"),
-    User(2, "choonfei@test.com", "abc123","Fei"),
+    User(2, "fei@test.com", "abc123","Fei"),
     User(3, "yisheng@test.com", "abc123","Yisheng"),
   ];
 

@@ -21,6 +21,8 @@ class _ScanPaymentPageState extends State<ScanPaymentPage> {
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
+ bool waiting = false;
+ 
 @override
   void dispose() {
     super.dispose();
@@ -31,6 +33,8 @@ class _ScanPaymentPageState extends State<ScanPaymentPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool redirect = true;
+   
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFF5465FF),
@@ -44,18 +48,22 @@ class _ScanPaymentPageState extends State<ScanPaymentPage> {
            listenWhen: (context, state) {
             return true;
           },
-            listener: (context, state) {
+            listener: (context, state) async {
           if (state is ScanPaymentFailure) {
             showErrorDialog(state.error);
           }
 
           if (state is MakeNavigateWithPayment) {
+            if(redirect)
             Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) =>
                       MakePaymentPage(payment: state.payment)),
             );
+              setState(() {  
+              redirect = false;
+            });
           }
 
           if (state is MakeNavigateWithoutPayment) {
@@ -109,14 +117,25 @@ class _ScanPaymentPageState extends State<ScanPaymentPage> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
+     
     this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
+    controller.scannedDataStream.listen((scanData) async {
+      if(waiting){
+        return;
+      }
       if (scanData.code == null) {
         Navigator.pop(context);
         return;
       }
+      setState(() {
+        waiting = true;
+      });
       BlocProvider.of<ScanPaymentBloc>(context)
-          .add(ScanQRCode(scanData.code ?? ""));
+          .add(ScanQRCode(scanData.code ?? ""));        
+      await Future.delayed(const Duration(seconds: 1));
+      setState(() {
+        waiting = false;
+      });
     });
   }
 
@@ -165,6 +184,7 @@ class _ScanPaymentPageState extends State<ScanPaymentPage> {
       final rest = await FlutterQrReader.imgScan(file);
 
       BlocProvider.of<ScanPaymentBloc>(context).add(ScanQRCode(rest ?? ""));
+      
     } catch (e) {
       print('Error scanning QR code from gallery: $e');
       ScaffoldMessenger.of(context).showSnackBar(
